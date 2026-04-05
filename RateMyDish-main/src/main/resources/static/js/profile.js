@@ -1,49 +1,43 @@
-bindLogout();
-requireAuth();
+(async () => {
+  bindLogout();
 
-const profileInfo = document.getElementById("profileInfo");
-const myDishList = document.getElementById("myDishList");
+  const username = await requireAuth({ redirectTo: "/login.html" });
+  if (!username) return;
 
-async function loadProfile() {
-  if (!profileInfo || !myDishList) return;
+  const profileInfo = document.getElementById("profileInfo");
+  const myDishList = document.getElementById("myDishList");
 
-  const username = getUsername();
+  async function loadProfile() {
+    if (!profileInfo || !myDishList) return;
 
-  if (!username) {
-    profileInfo.innerHTML = renderEmptyState("No logged-in user found.");
-    myDishList.innerHTML = "";
-    return;
-  }
+    profileInfo.innerHTML = `
+      <div class="profile-header">
+        <h2>${escapeHtml(username)}</h2>
+        <p class="muted">Your dishes</p>
+      </div>
+    `;
 
-  profileInfo.innerHTML = `
-    <div class="profile-summary">
-      <p><strong>Username:</strong> ${escapeHtml(username)}</p>
-    </div>
-  `;
+    myDishList.innerHTML = renderEmptyState("Loading your dishes...");
 
-  myDishList.innerHTML = renderEmptyState("Loading your dishes...");
+    try {
+      const dishes = await apiRequest(`/dishes/user/${encodeURIComponent(username)}`, "GET");
 
-  try {
-    const response = await apiRequest(`/dishes/user/${encodeURIComponent(username)}`, "GET");
-    const dishes = Array.isArray(response) ? response : (response?.content || []);
+      if (!Array.isArray(dishes) || dishes.length === 0) {
+        myDishList.innerHTML = renderEmptyState("You have not posted any dishes yet.");
+        return;
+      }
 
-    if (!dishes.length) {
-      myDishList.innerHTML = renderEmptyState("No dishes posted yet.");
-      return;
+      myDishList.innerHTML = "";
+      dishes.forEach((dish) => {
+        const card = document.createElement("article");
+        card.className = "dish-card";
+        card.innerHTML = createDishCardMarkup(dish);
+        myDishList.appendChild(card);
+      });
+    } catch (error) {
+      myDishList.innerHTML = renderEmptyState(error.message || "Unable to load your dishes.");
     }
-
-    myDishList.innerHTML = "";
-
-    dishes.forEach((dish) => {
-      const card = document.createElement("article");
-      card.className = "dish-card";
-      card.innerHTML = createDishCardMarkup(dish);
-      myDishList.appendChild(card);
-    });
-  } catch (error) {
-    myDishList.innerHTML = renderEmptyState(error.message || "Unable to load your dishes.");
-    console.error("Profile error:", error);
   }
-}
 
-loadProfile();
+  loadProfile();
+})();

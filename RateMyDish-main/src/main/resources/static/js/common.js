@@ -53,10 +53,7 @@ function createDishCardMarkup(dish) {
   `;
 }
 
-/**
- * Calls /api/auth/me and returns username (string) or null.
- * This is the canonical session check.
- */
+
 async function fetchSessionUser() {
   try {
     const me = await apiRequest("/auth/me", "GET");
