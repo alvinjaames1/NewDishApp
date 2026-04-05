@@ -74,7 +74,7 @@ async function loadDish() {
 
 if (likeBtn) {
   likeBtn.addEventListener("click", async function () {
-    if (!requireAuth()) return;
+    if (!await requireAuth()) return;         // ✅ FIX 1
 
     try {
       const response = await apiRequest(`/posts/${dishId}/likes`, "POST");
@@ -93,7 +93,7 @@ if (likeBtn) {
 if (ratingForm) {
   ratingForm.addEventListener("submit", async function (e) {
     e.preventDefault();
-    if (!requireAuth()) return;
+    if (!await requireAuth()) return;         // ✅ FIX 2
 
     const value = Number(document.getElementById("ratingValue").value);
 
@@ -117,7 +117,7 @@ if (ratingForm) {
 if (commentForm) {
   commentForm.addEventListener("submit", async function (e) {
     e.preventDefault();
-    if (!requireAuth()) return;
+    if (!await requireAuth()) return;         // ✅ FIX 3
 
     const text = document.getElementById("commentText").value.trim();
 
