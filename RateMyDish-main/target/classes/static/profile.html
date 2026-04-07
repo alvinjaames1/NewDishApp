@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile - RateMyDish</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="bg-blur bg-blur-1"></div>
+  <div class="bg-blur bg-blur-2"></div>
+
+  <nav class="navbar">
+    <a href="/index.html" class="brand">
+      <span class="logo-icon">🍽️</span>
+      <span class="logo-text">RateMyDish</span>
+    </a>
+
+    <div class="nav-links">
+      <a href="/feed.html">Feed</a>
+      <a href="/create-dish.html">Create Dish</a>
+      <a href="/search.html">Search</a>
+      <a href="/profile.html" class="nav-pill active-link">Profile</a>
+      <a href="#" id="logoutBtn" class="nav-pill nav-highlight">Logout</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="content-card">
+      <div class="section-heading">
+        <span class="eyebrow">Your account</span>
+        <h2 class="page-title">My Profile</h2>
+      </div>
+      <div id="profileInfo"></div>
+    </section>
+
+    <section class="content-card">
+      <div class="section-heading">
+        <span class="eyebrow">Your dishes</span>
+        <h3>My Dishes</h3>
+      </div>
+      <div id="myDishList" class="grid"></div>
+    </section>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/profile.js"></script>
+</body>
+</html>

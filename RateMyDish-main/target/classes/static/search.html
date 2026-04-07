@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search - RateMyDish</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="bg-blur bg-blur-1"></div>
+  <div class="bg-blur bg-blur-2"></div>
+
+  <nav class="navbar">
+    <a href="/index.html" class="brand">
+      <span class="logo-icon">🍽️</span>
+      <span class="logo-text">RateMyDish</span>
+    </a>
+
+    <div class="nav-links">
+      <a href="/feed.html">Feed</a>
+      <a href="/create-dish.html">Create Dish</a>
+      <a href="/search.html" class="nav-pill active-link">Search</a>
+      <a href="/profile.html">Profile</a>
+      <a href="#" id="logoutBtn" class="nav-pill nav-highlight">Logout</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="content-card">
+      <div class="section-heading">
+        <span class="eyebrow">Find dishes</span>
+        <h2 class="page-title">Search</h2>
+      </div>
+
+      <form id="searchForm" class="search-form">
+        <div class="field-grid">
+          <div>
+            <label for="keyword">Keyword</label>
+            <input
+              type="text"
+              id="keyword"
+              placeholder="Dish title, description, or username"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="cuisineFilter">Cuisine (optional)</label>
+            <input
+              type="text"
+              id="cuisineFilter"
+              placeholder="e.g. Italian"
+            />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </form>
+
+      <p id="searchMessage" class="message"></p>
+    </section>
+
+    <section class="content-card">
+      <div class="section-heading">
+        <span class="eyebrow">Results</span>
+        <h3>Dishes</h3>
+      </div>
+
+      <div id="dishResults" class="grid"></div>
+    </section>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/search.js"></script>
+</body>
+</html>

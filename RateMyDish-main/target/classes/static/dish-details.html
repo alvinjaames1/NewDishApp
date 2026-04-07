@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dish Details - RateMyDish</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="bg-blur bg-blur-1"></div>
+  <div class="bg-blur bg-blur-2"></div>
+
+  <nav class="navbar">
+    <a href="/index.html" class="brand">
+      <span class="logo-icon">🍽️</span>
+      <span class="logo-text">RateMyDish</span>
+    </a>
+
+    <div class="nav-links">
+      <a href="/feed.html">Feed</a>
+      <a href="/create-dish.html">Create Dish</a>
+      <a href="/profile.html">Profile</a>
+      <a href="#" id="logoutBtn" class="nav-pill nav-highlight">Logout</a>
+    </div>
+  </nav>
+
+  <main class="container details-layout">
+    <section class="content-card dish-details-card">
+      <div class="section-heading">
+        <span class="eyebrow">Dish spotlight</span>
+        <h2 class="page-title">Dish Details</h2>
+      </div>
+
+      <div id="dishDetails"></div>
+    </section>
+
+    <section class="content-card interaction-card">
+      <div class="section-heading">
+        <span class="eyebrow">Community actions</span>
+        <h3>Interact with this post</h3>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="likeBtn" type="button">Like</button>
+      </div>
+
+      <form id="ratingForm" class="stack-form">
+        <label for="ratingValue">Rate this dish (1–5)</label>
+        <input
+          type="number"
+          id="ratingValue"
+          min="1"
+          max="5"
+          placeholder="Enter a rating from 1 to 5"
+          required
+        />
+        <button type="submit" class="btn btn-primary">Submit Rating</button>
+      </form>
+
+      <form id="commentForm" class="stack-form comment-form">
+        <label for="commentText">Leave a Comment</label>
+        <textarea
+          id="commentText"
+          placeholder="Share your thoughts about this dish..."
+          required
+        ></textarea>
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+      </form>
+
+      <p id="interactionMessage" class="small-text"></p>
+    </section>
+
+    <section class="content-card comments-card">
+      <div class="section-heading">
+        <span class="eyebrow">Discussion</span>
+        <h3>Comments</h3>
+      </div>
+
+      <div id="commentList" class="comment-list"></div>
+    </section>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/dish-details.js"></script>
+</body>
+</html>
