@@ -8,7 +8,7 @@ async function loadDishes() {
   dishList.innerHTML = renderEmptyState("Loading dishes...");
 
   try {
-    const response = await apiRequest("/dishes?sort=latest", "GET");
+    const response = await apiRequest("/dishes?feedSort=latest", "GET");
     const dishes = Array.isArray(response) ? response : (response?.content || []);
 
     if (!dishes.length) {

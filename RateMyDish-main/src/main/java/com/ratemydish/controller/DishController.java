@@ -27,12 +27,12 @@ public class DishController {
         return ResponseEntity.ok(dishService.createDish(request, request.getImageUrl(), currentUser));
     }
 
-    @GetMapping
+     @GetMapping
     public ResponseEntity<?> getFeed(
             Pageable pageable,
-            @RequestParam(defaultValue = "latest") String sort) {
+            @RequestParam(name = "feedSort", defaultValue = "latest") String feedSort) {
 
-        return ResponseEntity.ok(dishService.getFeed(pageable, sort));
+        return ResponseEntity.ok(dishService.getFeed(pageable, feedSort));
     }
 
     @GetMapping("/search")
