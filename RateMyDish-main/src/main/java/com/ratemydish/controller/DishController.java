@@ -85,3 +85,4 @@ public class DishController {
         String imageUrl = fileStorageService.storeFile(file);
         return ResponseEntity.ok(Map.of("imageUrl", imageUrl));
     }
+}
