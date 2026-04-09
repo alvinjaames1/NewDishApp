@@ -3,25 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dish Feed - RateMyDish</title>
+  <title>Feed - RateMyDish</title>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-  <nav class="navbar">
-    <h1>RateMyDish</h1>
-    <div class="nav-links">
-      <a href="/feed.html">Feed</a>
-      <a href="/create-dish.html">Create Dish</a>
-      <a href="/search.html">Search</a>
-      <a href="/profile.html">Profile</a>
-      <a href="#" id="logoutBtn">Logout</a>
-    </div>
-  </nav>
+<nav class="navbar">
+  <div class="logo">
+    <span class="logo-icon">🍽️</span>
+    <span class="logo-text">RateMyDish</span>
+  </div>
 
-  <main class="container">
-    <h2 class="page-title">Dish Feed</h2>
-    <div id="dishList" class="grid"></div>
-  </main>
+  <div class="nav-links">
+    <a href="/feed.html" class="active">Feed</a>
+    <a href="/create-dish.html">Create Dish</a>
+    <a href="/search.html">Search</a>
+    <a href="/profile.html">Profile</a>
+    <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+  </div>
+</nav>
+
+<main class="container">
+  <h1 class="page-title">Dish Feed</h1>
+  <section id="dishList" class="grid"></section>
+</main>
 
 <script src="/js/api.js"></script>
 <script src="/js/common.js"></script>

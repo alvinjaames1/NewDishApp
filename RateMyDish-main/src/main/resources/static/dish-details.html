@@ -7,81 +7,107 @@
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-  <div class="bg-blur bg-blur-1"></div>
-  <div class="bg-blur bg-blur-2"></div>
+<nav class="navbar">
+  <div class="logo">
+    <span class="logo-icon">🍽️</span>
+    <span class="logo-text">RateMyDish</span>
+  </div>
 
-  <nav class="navbar">
-    <a href="/index.html" class="brand">
-      <span class="logo-icon">🍽️</span>
-      <span class="logo-text">RateMyDish</span>
-    </a>
+  <div class="nav-links">
+    <a href="/feed.html">Feed</a>
+    <a href="/create-dish.html">Create Dish</a>
+    <a href="/search.html">Search</a>
+    <a href="/profile.html">Profile</a>
+    <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+  </div>
+</nav>
 
-    <div class="nav-links">
-      <a href="/feed.html">Feed</a>
-      <a href="/create-dish.html">Create Dish</a>
-      <a href="/profile.html">Profile</a>
-      <a href="#" id="logoutBtn" class="nav-pill nav-highlight">Logout</a>
+<main class="container details-layout">
+  <section class="content-card dish-details-card">
+    <p class="page-eyebrow">Dish spotlight</p>
+    <h1 class="page-title">Dish Details</h1>
+
+    <div class="dish-detail-layout">
+      <img id="dishImage" class="dish-detail-image" alt="Dish image" />
+
+      <div class="dish-detail-text">
+        <h3 id="dishTitle">Loading...</h3>
+
+        <div class="detail-block">
+          <h4>Cuisine</h4>
+          <p id="dishCuisine">-</p>
+        </div>
+
+        <div class="detail-block">
+          <h4>Description</h4>
+          <p id="dishDescription">-</p>
+        </div>
+
+        <div class="detail-block">
+          <h4>Ingredients</h4>
+          <p id="dishIngredients">-</p>
+        </div>
+
+        <div class="detail-block">
+          <h4>Recipe</h4>
+          <p id="dishRecipe">-</p>
+        </div>
+
+        <div class="dish-meta">
+          <span id="dishRating" class="rating-badge">⭐ 0.0</span>
+          <span id="dishLikes" class="tag">Likes: 0</span>
+        </div>
+      </div>
     </div>
-  </nav>
+  </section>
 
-  <main class="container details-layout">
-    <section class="content-card dish-details-card">
-      <div class="section-heading">
-        <span class="eyebrow">Dish spotlight</span>
-        <h2 class="page-title">Dish Details</h2>
-      </div>
+  <section class="content-card interaction-card">
+    <p class="page-eyebrow">Community actions</p>
+    <h2>Interact with this post</h2>
 
-      <div id="dishDetails"></div>
-    </section>
+    <div class="actions">
+      <button id="likeBtn" class="btn" type="button">Like</button>
+    </div>
 
-    <section class="content-card interaction-card">
-      <div class="section-heading">
-        <span class="eyebrow">Community actions</span>
-        <h3>Interact with this post</h3>
-      </div>
+    <form id="ratingForm" class="stack-form">
+      <label for="ratingValue">Rate this dish</label>
+      <input
+              type="number"
+              id="ratingValue"
+              min="1"
+              max="5"
+              step="1"
+              placeholder="Enter 1 to 5"
+              required
+      />
+      <button type="submit" class="btn">Submit Rating</button>
+    </form>
 
-      <div class="actions">
-        <button class="btn btn-primary" id="likeBtn" type="button">Like</button>
-      </div>
+    <p id="interactionMessage" class="message"></p>
+  </section>
 
-      <form id="ratingForm" class="stack-form">
-        <label for="ratingValue">Rate this dish (1–5)</label>
-        <input
-          type="number"
-          id="ratingValue"
-          min="1"
-          max="5"
-          placeholder="Enter a rating from 1 to 5"
-          required
-        />
-        <button type="submit" class="btn btn-primary">Submit Rating</button>
-      </form>
+  <section class="content-card comments-card">
+    <p class="page-eyebrow">Conversation</p>
+    <h2>Comments</h2>
 
-      <form id="commentForm" class="stack-form comment-form">
-        <label for="commentText">Leave a Comment</label>
-        <textarea
-          id="commentText"
-          placeholder="Share your thoughts about this dish..."
-          required
-        ></textarea>
-        <button type="submit" class="btn btn-primary">Post Comment</button>
-      </form>
+    <form id="commentForm" class="comment-form">
+      <label for="commentText">Leave a comment</label>
+      <textarea
+              id="commentText"
+              rows="4"
+              placeholder="Share your thoughts..."
+              required
+      ></textarea>
+      <button type="submit" class="btn">Post Comment</button>
+    </form>
 
-      <p id="interactionMessage" class="small-text"></p>
-    </section>
+    <p id="commentMessage" class="message"></p>
+    <div id="commentList" class="comment-list"></div>
+  </section>
+</main>
 
-    <section class="content-card comments-card">
-      <div class="section-heading">
-        <span class="eyebrow">Discussion</span>
-        <h3>Comments</h3>
-      </div>
-
-      <div id="commentList" class="comment-list"></div>
-    </section>
-  </main>
-
-  <script src="/js/api.js"></script>
-  <script src="/js/common.js"></script>
-  <script src="/js/dish-details.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/dish-details.js"></script>
 </body>
 </html>

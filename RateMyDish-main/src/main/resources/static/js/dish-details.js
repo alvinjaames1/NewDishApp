@@ -29,11 +29,19 @@ async function loadDish() {
   try {
     const dish = await apiRequest(`/dishes/${dishId}`, "GET");
 
+    console.log("Dish details response:", dish);
+    console.log("Dish imageUrl:", dish.imageUrl);
+
+    const finalImage =
+        dish.imageUrl && String(dish.imageUrl).trim()
+            ? String(dish.imageUrl).trim()
+            : PLACEHOLDER_IMAGE;
+
     dishDetails.innerHTML = `
       <div class="dish-detail-layout">
         <img
           class="dish-detail-image"
-          src="${escapeHtml(getDishImage(dish.imageUrl))}"
+          src="${escapeHtml(finalImage)}"
           alt="${escapeHtml(dish.title || "Dish image")}"
           onerror="this.src='${PLACEHOLDER_IMAGE}';"
         />
@@ -74,13 +82,13 @@ async function loadDish() {
 
 if (likeBtn) {
   likeBtn.addEventListener("click", async function () {
-    if (!await requireAuth()) return;         // ✅ FIX 1
+    if (!await requireAuth()) return;
 
     try {
       const response = await apiRequest(`/posts/${dishId}/likes`, "POST");
       setInteractionMessage(
-        response?.liked ? "Post liked." : "Like removed.",
-        "success"
+          response?.liked ? "Post liked." : "Like removed.",
+          "success"
       );
       loadDish();
     } catch (error) {
@@ -93,7 +101,7 @@ if (likeBtn) {
 if (ratingForm) {
   ratingForm.addEventListener("submit", async function (e) {
     e.preventDefault();
-    if (!await requireAuth()) return;         // ✅ FIX 2
+    if (!await requireAuth()) return;
 
     const value = Number(document.getElementById("ratingValue").value);
 
@@ -117,7 +125,7 @@ if (ratingForm) {
 if (commentForm) {
   commentForm.addEventListener("submit", async function (e) {
     e.preventDefault();
-    if (!await requireAuth()) return;         // ✅ FIX 3
+    if (!await requireAuth()) return;
 
     const text = document.getElementById("commentText").value.trim();
 
