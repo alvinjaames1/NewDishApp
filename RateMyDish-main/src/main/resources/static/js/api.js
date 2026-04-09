@@ -8,8 +8,12 @@ async function apiRequest(endpoint, method = "GET", body = null) {
   };
 
   if (body !== null) {
-    options.headers["Content-Type"] = "application/json";
-    options.body = JSON.stringify(body);
+    if (body instanceof FormData) {
+      options.body = body;
+    } else {
+      options.headers["Content-Type"] = "application/json";
+      options.body = JSON.stringify(body);
+    }
   }
 
   const response = await fetch(`${API_BASE}${endpoint}`, options);

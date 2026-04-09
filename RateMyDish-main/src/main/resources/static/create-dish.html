@@ -7,94 +7,92 @@
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-  <div class="bg-blur bg-blur-1"></div>
-  <div class="bg-blur bg-blur-2"></div>
+<nav class="navbar">
+  <div class="logo">
+    <span class="logo-icon">🍽️</span>
+    <span class="logo-text">RateMyDish</span>
+  </div>
 
-  <nav class="navbar">
-    <a href="/index.html" class="brand">
-      <span class="logo-icon">🍽️</span>
-      <span class="logo-text">RateMyDish</span>
-    </a>
+  <div class="nav-links">
+    <a href="/feed.html">Feed</a>
+    <a href="/create-dish.html" class="active">Create Dish</a>
+    <a href="/search.html">Search</a>
+    <a href="/profile.html">Profile</a>
+    <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+  </div>
+</nav>
 
-    <div class="nav-links">
-      <a href="/feed.html">Feed</a>
-      <a href="/create-dish.html" class="nav-pill active-link">Create Dish</a>
-      <a href="/search.html">Search</a>
-      <a href="/profile.html">Profile</a>
-      <a href="#" id="logoutBtn" class="nav-pill nav-highlight">Logout</a>
-    </div>
-  </nav>
+<main class="page-shell">
+  <section class="page-card create-dish-page">
+    <p class="page-eyebrow">Share something delicious</p>
+    <h1>Create a Dish</h1>
+    <p class="page-subtext">
+      Post your best meal so other food lovers can discover and rate it.
+    </p>
 
-  <main class="container create-container">
-    <div class="form-card create-card">
-      <div class="form-header">
-        <span class="eyebrow">Share something delicious</span>
-        <h2 class="page-title">Create a Dish</h2>
-        <p>Post your best meal so other food lovers can discover and rate it.</p>
-      </div>
+    <form id="createDishForm" class="dish-form">
+      <label for="title">Title</label>
+      <input
+              type="text"
+              id="title"
+              placeholder="e.g. Spicy Garlic Ramen"
+              required
+      />
 
-      <form id="createDishForm">
-        <label for="title">Title</label>
-        <input
-          type="text"
-          id="title"
-          maxlength="80"
-          minlength="2"
-          placeholder="e.g. Spicy Garlic Ramen"
-          required
-        />
+      <label for="cuisine">Cuisine</label>
+      <input
+              type="text"
+              id="cuisine"
+              placeholder="e.g. Japanese"
+              required
+      />
 
-        <label for="cuisine">Cuisine</label>
-        <input
-          type="text"
-          id="cuisine"
-          maxlength="40"
-          minlength="2"
-          placeholder="e.g. Japanese"
-          required
-        />
+      <label for="imageFile">Dish Image</label>
+      <input
+              type="file"
+              id="imageFile"
+              accept="image/*"
+      />
 
-        <label for="imageUrl">Image URL</label>
-        <input
-          type="url"
-          id="imageUrl"
-          placeholder="https://example.com/dish.jpg"
-          required
-        />
+      <label for="imageUrl">Or Image URL</label>
+      <input
+              type="url"
+              id="imageUrl"
+              placeholder="https://example.com/dish.jpg"
+      />
 
-        <label for="description">Description</label>
-        <textarea
-          id="description"
-          maxlength="1000"
-          placeholder="Describe the flavor, texture, and presentation..."
-          required
-        ></textarea>
+      <p id="uploadStatus" class="message"></p>
 
-        <label for="ingredientsText">Ingredients</label>
-        <textarea
-          id="ingredientsText"
-          maxlength="1200"
-          placeholder="List ingredients, separated by commas"
-        ></textarea>
+      <label for="description">Description</label>
+      <textarea
+              id="description"
+              rows="5"
+              placeholder="Describe the flavor, texture, and presentation..."
+              required
+      ></textarea>
 
-        <label for="recipeText">Recipe</label>
-        <textarea
-          id="recipeText"
-          maxlength="3000"
-          placeholder="Write the preparation steps"
-        ></textarea>
+      <label for="ingredientsText">Ingredients</label>
+      <textarea
+              id="ingredientsText"
+              rows="4"
+              placeholder="List ingredients here..."
+      ></textarea>
 
-        <button type="submit" class="btn btn-primary full-width" id="createDishSubmitBtn">
-          Post Dish
-        </button>
-      </form>
+      <label for="recipeText">Recipe / Preparation</label>
+      <textarea
+              id="recipeText"
+              rows="5"
+              placeholder="Describe how the dish is made..."
+      ></textarea>
 
+      <button type="submit" class="btn create-btn">Create Dish</button>
       <p id="message" class="message"></p>
-    </div>
-  </main>
+    </form>
+  </section>
+</main>
 
-  <script src="/js/api.js"></script>
-   <script src="/js/common.js"></script>
-  <script src="/js/create-dish.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/create-dish.js"></script>
 </body>
 </html>
