@@ -3,12 +3,21 @@ bindLogout();
 const params = new URLSearchParams(window.location.search);
 const dishId = params.get("id");
 
-const dishDetails = document.getElementById("dishDetails");
+const dishImage = document.getElementById("dishImage");
+const dishTitle = document.getElementById("dishTitle");
+const dishCuisine = document.getElementById("dishCuisine");
+const dishDescription = document.getElementById("dishDescription");
+const dishIngredients = document.getElementById("dishIngredients");
+const dishRecipe = document.getElementById("dishRecipe");
+const dishRating = document.getElementById("dishRating");
+const dishLikes = document.getElementById("dishLikes");
+
 const commentList = document.getElementById("commentList");
 const interactionMessage = document.getElementById("interactionMessage");
 const ratingForm = document.getElementById("ratingForm");
 const commentForm = document.getElementById("commentForm");
 const likeBtn = document.getElementById("likeBtn");
+const commentMessage = document.getElementById("commentMessage");
 
 function setInteractionMessage(text, type = "") {
   if (!interactionMessage) return;
@@ -16,52 +25,47 @@ function setInteractionMessage(text, type = "") {
   interactionMessage.textContent = text;
 }
 
+function setCommentMessage(text, type = "") {
+  if (!commentMessage) return;
+  commentMessage.className = type ? `message ${type}` : "message";
+  commentMessage.textContent = text;
+}
+
 async function loadDish() {
   if (!dishId) {
-    dishDetails.innerHTML = renderEmptyState("No dish ID was provided.");
-    commentList.innerHTML = "";
+    if (dishTitle) dishTitle.textContent = "Dish not found";
+    if (dishCuisine) dishCuisine.textContent = "-";
+    if (dishDescription) dishDescription.textContent = "No dish ID was provided.";
+    if (dishIngredients) dishIngredients.textContent = "-";
+    if (dishRecipe) dishRecipe.textContent = "-";
+    if (commentList) commentList.innerHTML = renderEmptyState("No comments found.");
     return;
   }
-
-  dishDetails.innerHTML = renderEmptyState("Loading dish...");
-  commentList.innerHTML = renderEmptyState("Loading comments...");
 
   try {
     const dish = await apiRequest(`/dishes/${dishId}`, "GET");
 
-    console.log("Dish details response:", dish);
-    console.log("Dish imageUrl:", dish.imageUrl);
+    if (dishTitle) dishTitle.textContent = dish.title || "Untitled Dish";
+    if (dishCuisine) dishCuisine.textContent = dish.cuisine || "N/A";
+    if (dishDescription) dishDescription.textContent = dish.description || "No description available.";
+    if (dishIngredients) dishIngredients.textContent = dish.ingredientsText || "N/A";
+    if (dishRecipe) dishRecipe.textContent = dish.recipeText || "N/A";
+    if (dishRating) dishRating.textContent = `⭐ ${formatRating(dish.averageRating)}`;
+    if (dishLikes) dishLikes.textContent = `Likes: ${dish.likeCount ?? 0}`;
 
-    const finalImage =
-        dish.imageUrl && String(dish.imageUrl).trim()
-            ? String(dish.imageUrl).trim()
-            : PLACEHOLDER_IMAGE;
-
-    dishDetails.innerHTML = `
-      <div class="dish-detail-layout">
-        <img
-          class="dish-detail-image"
-          src="${escapeHtml(finalImage)}"
-          alt="${escapeHtml(dish.title || "Dish image")}"
-          onerror="this.src='${PLACEHOLDER_IMAGE}';"
-        />
-
-        <div class="dish-detail-text">
-          <h2>${escapeHtml(dish.title || "Untitled Dish")}</h2>
-          <p><strong>Cuisine:</strong> ${escapeHtml(dish.cuisine || "N/A")}</p>
-          <p><strong>Description:</strong> ${escapeHtml(dish.description || "No description available.")}</p>
-          <p><strong>Ingredients:</strong> ${escapeHtml(dish.ingredientsText || "N/A")}</p>
-          <p><strong>Recipe:</strong> ${escapeHtml(dish.recipeText || "N/A")}</p>
-
-          <div class="dish-meta">
-            <span class="rating-badge">⭐ ${escapeHtml(formatRating(dish.averageRating))}</span>
-            <span class="tag">Likes: ${escapeHtml(dish.likeCount ?? 0)}</span>
-          </div>
-        </div>
-      </div>
-    `;
+    if (dishImage) {
+      const finalImage = getDishImage(dish.imageUrl);
+      dishImage.src = finalImage;
+      dishImage.alt = dish.title || "Dish image";
+      dishImage.onerror = function () {
+        this.onerror = null;
+        this.src = PLACEHOLDER_IMAGE;
+      };
+    }
 
     const comments = await apiRequest(`/posts/${dishId}/comments`, "GET");
+
+    if (!commentList) return;
 
     if (!Array.isArray(comments) || !comments.length) {
       commentList.innerHTML = renderEmptyState("No comments yet.");
@@ -74,15 +78,20 @@ async function loadDish() {
       </div>
     `).join("");
   } catch (error) {
-    dishDetails.innerHTML = renderEmptyState(error.message || "Unable to load dish details.");
-    commentList.innerHTML = "";
     console.error("Dish details error:", error);
+
+    if (dishTitle) dishTitle.textContent = "Unable to load dish";
+    if (dishCuisine) dishCuisine.textContent = "-";
+    if (dishDescription) dishDescription.textContent = error.message || "Failed to load dish details.";
+    if (dishIngredients) dishIngredients.textContent = "-";
+    if (dishRecipe) dishRecipe.textContent = "-";
+    if (commentList) commentList.innerHTML = renderEmptyState("Unable to load comments.");
   }
 }
 
 if (likeBtn) {
   likeBtn.addEventListener("click", async function () {
-    if (!await requireAuth()) return;
+    if (!requireAuth()) return;
 
     try {
       const response = await apiRequest(`/posts/${dishId}/likes`, "POST");
@@ -90,7 +99,7 @@ if (likeBtn) {
           response?.liked ? "Post liked." : "Like removed.",
           "success"
       );
-      loadDish();
+      await loadDish();
     } catch (error) {
       setInteractionMessage(error.message || "Like failed.", "error");
       console.error("Like error:", error);
@@ -101,7 +110,7 @@ if (likeBtn) {
 if (ratingForm) {
   ratingForm.addEventListener("submit", async function (e) {
     e.preventDefault();
-    if (!await requireAuth()) return;
+    if (!requireAuth()) return;
 
     const value = Number(document.getElementById("ratingValue").value);
 
@@ -114,7 +123,7 @@ if (ratingForm) {
       await apiRequest(`/posts/${dishId}/ratings`, "POST", { value });
       setInteractionMessage("Rating submitted.", "success");
       ratingForm.reset();
-      loadDish();
+      await loadDish();
     } catch (error) {
       setInteractionMessage(error.message || "Rating failed.", "error");
       console.error("Rating error:", error);
@@ -125,22 +134,22 @@ if (ratingForm) {
 if (commentForm) {
   commentForm.addEventListener("submit", async function (e) {
     e.preventDefault();
-    if (!await requireAuth()) return;
+    if (!requireAuth()) return;
 
     const text = document.getElementById("commentText").value.trim();
 
     if (!text) {
-      setInteractionMessage("Comment cannot be empty.", "error");
+      setCommentMessage("Comment cannot be empty.", "error");
       return;
     }
 
     try {
       await apiRequest(`/posts/${dishId}/comments`, "POST", { text });
-      setInteractionMessage("Comment posted.", "success");
+      setCommentMessage("Comment posted.", "success");
       commentForm.reset();
-      loadDish();
+      await loadDish();
     } catch (error) {
-      setInteractionMessage(error.message || "Comment failed.", "error");
+      setCommentMessage(error.message || "Comment failed.", "error");
       console.error("Comment error:", error);
     }
   });

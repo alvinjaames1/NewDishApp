@@ -7,44 +7,40 @@
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-  <div class="bg-blur bg-blur-1"></div>
-  <div class="bg-blur bg-blur-2"></div>
+<nav class="navbar">
+  <a href="/index.html" class="brand">
+    <span class="logo-icon">🍽️</span>
+    <span class="logo-text">RateMyDish</span>
+  </a>
 
-  <nav class="navbar">
-    <a href="/index.html" class="brand">
-      <span class="logo-icon">🍽️</span>
-      <span class="logo-text">RateMyDish</span>
-    </a>
+  <div class="nav-links">
+    <a href="/feed.html">Feed</a>
+    <a href="/create-dish.html">Create Dish</a>
+    <a href="/search.html">Search</a>
+    <a href="/profile.html" class="active">Profile</a>
+    <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+  </div>
+</nav>
 
-    <div class="nav-links">
-      <a href="/feed.html">Feed</a>
-      <a href="/create-dish.html">Create Dish</a>
-      <a href="/search.html">Search</a>
-      <a href="/profile.html" class="nav-pill active-link">Profile</a>
-      <a href="#" id="logoutBtn" class="nav-pill nav-highlight">Logout</a>
+<main class="container">
+  <section class="page-card section-spacing">
+    <p class="page-eyebrow">Your account</p>
+    <h1 class="page-title">My Profile</h1>
+    <div class="profile-summary">
+      <h2 id="profileName">User</h2>
+      <p>Your dishes</p>
     </div>
-  </nav>
+  </section>
 
-  <main class="container">
-    <section class="content-card">
-      <div class="section-heading">
-        <span class="eyebrow">Your account</span>
-        <h2 class="page-title">My Profile</h2>
-      </div>
-      <div id="profileInfo"></div>
-    </section>
+  <section class="page-card section-spacing">
+    <p class="page-eyebrow">Your dishes</p>
+    <h2>My Dishes</h2>
+    <div id="profileDishList" class="grid section-spacing"></div>
+  </section>
+</main>
 
-    <section class="content-card">
-      <div class="section-heading">
-        <span class="eyebrow">Your dishes</span>
-        <h3>My Dishes</h3>
-      </div>
-      <div id="myDishList" class="grid"></div>
-    </section>
-  </main>
-
-  <script src="/js/api.js"></script>
-  <script src="/js/common.js"></script>
-  <script src="/js/profile.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/profile.js"></script>
 </body>
 </html>

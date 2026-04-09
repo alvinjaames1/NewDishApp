@@ -1,43 +1,42 @@
-(async () => {
-  bindLogout();
+bindLogout();
 
-  const username = await requireAuth({ redirectTo: "/login.html" });
-  if (!username) return;
+const profileUsername = localStorage.getItem("username");
 
-  const profileInfo = document.getElementById("profileInfo");
-  const myDishList = document.getElementById("myDishList");
+const profileName = document.getElementById("profileName");
+const profileDishList = document.getElementById("profileDishList");
 
-  async function loadProfile() {
-    if (!profileInfo || !myDishList) return;
+async function loadProfile() {
+  if (!requireAuth()) return;
 
-    profileInfo.innerHTML = `
-      <div class="profile-header">
-        <h2>${escapeHtml(username)}</h2>
-        <p class="muted">Your dishes</p>
-      </div>
-    `;
-
-    myDishList.innerHTML = renderEmptyState("Loading your dishes...");
-
-    try {
-      const dishes = await apiRequest(`/dishes/user/${encodeURIComponent(username)}`, "GET");
-
-      if (!Array.isArray(dishes) || dishes.length === 0) {
-        myDishList.innerHTML = renderEmptyState("You have not posted any dishes yet.");
-        return;
-      }
-
-      myDishList.innerHTML = "";
-      dishes.forEach((dish) => {
-        const card = document.createElement("article");
-        card.className = "dish-card";
-        card.innerHTML = createDishCardMarkup(dish);
-        myDishList.appendChild(card);
-      });
-    } catch (error) {
-      myDishList.innerHTML = renderEmptyState(error.message || "Unable to load your dishes.");
-    }
+  if (profileName) {
+    profileName.textContent = profileUsername || "User";
   }
 
-  loadProfile();
-})();
+  if (!profileUsername) {
+    if (profileDishList) {
+      profileDishList.innerHTML = renderEmptyState("No username found. Please log in again.");
+    }
+    return;
+  }
+
+  try {
+    const response = await apiRequest(`/dishes/user/${encodeURIComponent(profileUsername)}`, "GET");
+    const dishes = Array.isArray(response) ? response : (response?.content || []);
+
+    if (!Array.isArray(dishes) || dishes.length === 0) {
+      profileDishList.innerHTML = renderEmptyState("You have not posted any dishes yet.");
+      return;
+    }
+
+    profileDishList.innerHTML = dishes.map((dish) => `
+      <div class="dish-card">
+        ${createDishCardMarkup(dish)}
+      </div>
+    `).join("");
+  } catch (error) {
+    console.error("Profile load error:", error);
+    profileDishList.innerHTML = renderEmptyState(error.message || "Unable to load your dishes.");
+  }
+}
+
+loadProfile();
