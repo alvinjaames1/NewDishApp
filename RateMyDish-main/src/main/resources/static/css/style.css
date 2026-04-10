@@ -807,9 +807,81 @@ a:hover {
 .delete-btn:hover {
   filter: brightness(1.05);
 }
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-preview {
+  flex: 1;
+  max-width: 520px;
+}
+
+.phone-card {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 1rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
 .hero-image {
   width: 100%;
-  height: 200px;    
-  object-fit: cover; 
-  border-radius: 14px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 18px;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.dish-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.rating-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  font-weight: 700;
+}
+
+.dish-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.dish-tags span {
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-preview {
+    max-width: 100%;
+  }
+
+  .hero-image {
+    height: 240px;
+  }
 }
